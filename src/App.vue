@@ -1,28 +1,41 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png" />
-    <HelloWorld msg="Hey I made a Vue App!" />
+    <Header message="Hello?"></Header>
+    <Task v-bind:task=tasks></Task>
   </div>
 </template>
 
 <script>
-import HelloWorld from "./components/HelloWorld.vue";
+import Header from './components/Header.vue'
+import Task from './components/Task.vue'
+import axios from 'axios';
 
 export default {
   name: "App",
   components: {
-    HelloWorld
+    Header,
+    Task
   },
+  data() {
+    return {
+      tasks: [
+        {id:0, title:"Learn HTML", completed: true},
+        {id:1, title:"Learn JavaScript", completed: false},
+        {id:2, title:"Learn JS Framework Vue", completed: false}
+      ]
+    }
+  },
+  mounted() {
+    axios.get('https://jsonplaceholder.typicode.com/todos')
+    .then((response)=>{
+      this.tasks = response.data;
+    })
+  }
 };
 </script>
-
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+* {
+  margin: 0px;
+  padding: 0px;
 }
 </style>
